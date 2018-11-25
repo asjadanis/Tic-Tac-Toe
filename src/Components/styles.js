@@ -8,7 +8,14 @@ export const boxStyles = (row, col) => ({
   cursor:'pointer',
   transition: 'all 0.3s ease-in-out, border-color ',
   backgroundColor: 'darkcyan',
-  textAlign: 'center',
+  textAlign: 'center'
+});
 
-  // transition: 'all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);'
+export const iconStyles = (row, col) => ({
+   width: '5rem', 
+  height: '5rem',
+  position: 'absolute', 
+  left: 6+(col*0.3)+(col*5)+'rem', 
+  top: 6+(row*0.3)+(row*5)+'rem', 
+  zIndex: 1
 })

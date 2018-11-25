@@ -22,9 +22,14 @@
     <title>React App</title>
   </head>
   <body>
-    <noscript>
+    <!-- <noscript>
       You need to enable JavaScript to run this app.
-    </noscript>
+    </noscript> -->
+    <script >
+      if (!window.WebGLRenderingContext){
+        alert('WebGl is not supported')
+      }
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

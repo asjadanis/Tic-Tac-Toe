@@ -8,6 +8,7 @@ class GameBoard extends Component{
       board: []
     }
     this.initializeBoard = this.initializeBoard.bind(this);
+    this.updateGameBoard = this.updateGameBoard.bind(this);
   }
 
   componentDidMount(){
@@ -20,6 +21,17 @@ class GameBoard extends Component{
     }
   }
 
+  updateGameBoard(row, col){
+    let {board} = this.state;
+    if (this.props.activeTurn){
+      board[row][col] = 'H'
+    }
+    else{
+      board[row][col] = 'C'
+    } 
+    this.setState({board})
+  }
+
   initializeBoard(boardSize){
     let board = new Array(boardSize);
     let count = 1;
@@ -28,7 +40,7 @@ class GameBoard extends Component{
     }
     for (var i = 0; i < boardSize; i++){
       for (var j = 0; j < boardSize; j++){
-        board[i][j] = count;
+        board[i][j] = false;
         count ++;
       }
     }
@@ -49,10 +61,14 @@ class GameBoard extends Component{
                   <Box 
                     row={rowIndex}
                     col={colIndex}
+                    changeAnimation={this.props.changeAnimation}
+                    switchTurn={this.props.switchTurn}
+                    activeTurn={this.props.activeTurn}
+                    value={val}
+                    updateGameBoard={this.updateGameBoard}
                   />
                 )
               })}
-              {/* <span>{item }</span> */}
             </div>
           )
         }) }

@@ -1,11 +1,4 @@
 import React, { Component } from 'react';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import GameBoard from './Components/GameBoard';
 import Avatar from './Components/Avatar';
 
@@ -14,69 +7,66 @@ class App extends Component {
     super(props);
     this.state={
       boardSize: 3,
-      sizes: [3,4,5]
+      sizes: [3,4,5],
+      currentAnimation: 'Wave',
+      playerTurn: true
     }
     this.handleSelectChange = this.handleSelectChange.bind(this);
-    this.menuItems = this.menuItems.bind(this);
+    this.changeAnimation = this.changeAnimation.bind(this);
+    this.switchTurn = this.switchTurn.bind(this);
   }
 
   handleSelectChange(e){
     this.setState({boardSize: e.target.value})
   }
 
-  menuItems(data , values){
-    return data.map((item) => (
-      <MenuItem 
-        key={item}
-        value={item}
-      >
-        <Checkbox checked={Array.isArray(values) ?  values.indexOf(item) > -1 : item === values} color="primary" />
-        {/* <Checkbox checked={Array.isArray(values) ?  values.indexOf(item) > -1 : values} color="primary" /> */}
-        <ListItemText primary={item} />
-      </MenuItem>
-    ));
+  switchTurn(){
+    this.setState({playerTurn: !this.state.playerTurn});
+  }
+
+  changeAnimation(playerAnimation, computerAnimation){
+    this.setState({playerAnimation, computerAnimation})
   }
 
   render() {
-    const {boardSize, sizes} = this.state;
+    const {boardSize, sizes, playerAnimation, computerAnimation, playerTurn} = this.state;
 
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', position: 'absolute' }}>
-        <div style={{position: 'absolute'}}>
-          {/* Game Board Settings */}
-          {/* <FormControl style={{width:'10rem', marginTop: '0.7rem'}}>
-            <InputLabel htmlFor={'Board Size'}> Board Size </InputLabel>
-              <Select
-                value={boardSize}
-                onChange={this.handleSelectChange}
-                renderValue={selected => selected}
-                inputProps={{
-                  name: 'Board Size',
-                  id: 'boardSize',
-                }}
-              >
-                {this.menuItems(sizes, boardSize)}
-              </Select>
-          </FormControl> */}
-        </div>
         <div style={{position: 'absolute', top: '2rem', left: '10px'}}>
-          <span>Player 1</span>
-          <Avatar />
+          <Avatar 
+            currentAnimation={playerAnimation}
+            model='Robot/RobotExpressive.glb'
+            player='human'
+            activeTurn={playerTurn}
+          />
+          {this.state.playerTurn &&
+            <span style={{borderBottom: '2px solid dodgerblue', width: '10rem', position: 'absolute', top: '24rem', left: '11rem'}}></span>
+          }
         </div>
         <div style={{position: 'absolute', top: '2rem', left: '50'}}>
-          <span> GameBoard </span>
-          <div style={{position: 'absolute', width: boardSize*9+'rem', height: boardSize*9+'rem', left: '-12rem', marginTop: '2rem'}}>
+          <div style={{position: 'absolute', width: boardSize*9+'rem', height: boardSize*9+'rem', left: '-15rem', marginTop: '2rem'}}>
             <GameBoard 
               boardSize={boardSize}
+              changeAnimation={this.changeAnimation}
+              activeTurn={playerTurn}
+              switchTurn={this.switchTurn}
             />
           </div>
         </div>
         <div style={{position: 'absolute', top: '2rem', right: '10px'}}>
-          <span style={{float: 'right'}} > Player 2 </span>
-          {/* <Avatar /> */}
+          <Avatar 
+            currentAnimation={computerAnimation}
+            model='iclone_7_raptoid_mascot_-_free_download/scene.gltf'
+            player='computer'
+            activeTurn={playerTurn}
+          />
+          {!this.state.playerTurn &&
+            <span style={{borderBottom: '2px solid dodgerblue', width: '10rem', position: 'absolute', top: '24rem', left: '13rem'}}></span>
+          }
         </div>
         <div>
-          {/* ScoreBoard */}
+
         </div>
       </div>
     );
