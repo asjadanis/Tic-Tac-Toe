@@ -22,14 +22,14 @@ class Avatar extends Component{
   }
 
   componentWillReceiveProps(nextProps){
-    console.log('Animation: ', nextProps.currentAnimation)
+    // console.log('Animation: ', nextProps.currentAnimation)
     this.changeAnimation(nextProps.currentAnimation)
   }
 
   configureScene(){
     // const model = 'Robot/RobotExpressive.glb';
     const model = this.props.model;
-    console.log('MODEL PATH: ', model);
+    // console.log('MODEL PATH: ', model);
     this.clock = new THREE.Clock();
     const width = this.mount.clientWidth;
     const height = this.mount.clientHeight;
@@ -55,7 +55,7 @@ class Avatar extends Component{
     scene.add(globe);
     gltfLoader.load(model, obj => {
       item = obj.scene
-      console.log('ITEM: ', item);
+      // console.log('ITEM: ', item);
       if (this.props.player.includes('human')){
         setInterval(() => {
           globe.add(item); 
@@ -86,13 +86,13 @@ class Avatar extends Component{
           action.loop = THREE.LoopOnce;
         }
       }
-      console.log('Actions : ', actions)
+      // console.log('Actions : ', actions)
       if (this.props.player.includes('human')){
         var face = item.getObjectByName( 'Head_2' );
         var expressions = Object.keys( face.morphTargetDictionary );
         this.expressions = expressions;
-        console.log('Expressions: ', expressions);
-        console.log('ACTIONS: ', this.actions);
+        // console.log('Expressions: ', expressions);
+        // console.log('ACTIONS: ', this.actions);
       }
       else{
         var activeAction = actions['Threaten'];
@@ -126,7 +126,7 @@ class Avatar extends Component{
 
   changeAnimation(animation){
     if (animation){
-      console.log('Animation : ', animation);
+      // console.log('Animation : ', animation);
       var activeAction = this.actions[animation];
       let duration = this.props.player.includes('human') ? 0.2 : 0.5
       activeAction.reset()
