@@ -21,6 +21,10 @@ class Avatar extends Component{
     this.configureScene()
   }
 
+  componentWillMount(){
+    window.addEventListener('resize', this.handleWindowResize.bind(this));
+  }
+
   componentWillReceiveProps(nextProps){
     // console.log('Animation: ', nextProps.currentAnimation)
     this.changeAnimation(nextProps.currentAnimation)
@@ -95,17 +99,20 @@ class Avatar extends Component{
         // console.log('ACTIONS: ', this.actions);
       }
       else{
-        var activeAction = actions['Threaten'];
-        activeAction.play();
-        activeAction.fadeOut(6);
         activeAction = actions['idle']
         activeAction.fadeIn(6);
         activeAction.play()
+        var activeAction = actions['Threaten'];
+        activeAction.play();
+        // activeAction.fadeOut(6);
+        // activeAction = actions['idle']
+        // activeAction.fadeIn(6);
+        // activeAction.play()
       }
       this.actions = actions;
       this.mixer = mixer;
       this.obj = item;
-      this.computeBoundinBox();
+      this.computeBoundinBox('none');
       
       var light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
       light.position.set( -20, 20, 0 );
@@ -126,18 +133,22 @@ class Avatar extends Component{
 
   changeAnimation(animation){
     if (animation){
-      // console.log('Animation : ', animation);
+      // console.log('Animation : ', animation, this.actions);
       var activeAction = this.actions[animation];
-      let duration = this.props.player.includes('human') ? 0.2 : 0.5
+      if (this.activeAction){
+        this.activeAction.fadeOut(0.3)
+      }
+      this.activeAction = activeAction;
+      // activeAction.play();
       activeAction.reset()
 					.setEffectiveTimeScale( 1 )
 					.setEffectiveWeight( 1 )
-					.fadeIn( 0.2 )
+					.fadeIn( 0.5 )
           .play();
     }
   }
 
-  computeBoundinBox(){
+  computeBoundinBox(animation){
 
     let controls = new OrbitControls( this.camera, this.renderer.domElement);
     controls.enableDamping = true;
@@ -150,7 +161,7 @@ class Avatar extends Component{
     controls.dampingFactor = 1;
     this.controls = controls;
 
-    let offset = 1.60;
+    let offset = this.props.player === 'computer' && animation.includes('Run_L') ? 2.0 : 1.60;
     const boundingBox = new THREE.Box3();
     boundingBox.setFromObject(this.obj);
     const center = boundingBox.getCenter();
@@ -200,6 +211,13 @@ class Avatar extends Component{
     this.renderer.context = null;
     this.renderer.domElement = null;
     this.renderer = null;
+    window.removeEventListener('resize', this.handleWindowResize.bind(this));
+  }
+
+  handleWindowResize(e){
+    // this.camera.aspect = window.innerWidth/window.innerHeight;
+    // this.camera.updateProjectionMatrix();
+    // this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   render(){

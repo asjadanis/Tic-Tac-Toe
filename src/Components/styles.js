@@ -11,11 +11,12 @@ export const boxStyles = (row, col) => ({
   textAlign: 'center'
 });
 
-export const iconStyles = (row, col) => ({
+export const iconStyles = (row, col, value) => ({
    width: '5rem', 
   height: '5rem',
   position: 'absolute', 
   left: 6+(col*0.3)+(col*5)+'rem', 
   top: 6+(row*0.3)+(row*5)+'rem', 
-  zIndex: 1
+  zIndex: 1, 
+  color: value === 'H' ? 'lawngreen' : 'red'
 })

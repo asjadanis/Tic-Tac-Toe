@@ -16,57 +16,64 @@ class Box extends Component{
   }
 
   handleMouseOver(e){
-    let styles = this.box.style;
-    styles.boxShadow = '3px 3px 15px 5px #262626';
-    styles.transform = 'scale(1.1, 1.1)';
-    styles.zIndex = 1;
-
-    if (this.props.value){
-      styles.borderColor = 'red';
+    if (!this.props.terminated){
+      let styles = this.box.style;
+      styles.cursor = 'pointer';
+      styles.boxShadow = '3px 3px 15px 5px #262626';
+      styles.transform = 'scale(1.1, 1.1)';
+      styles.zIndex = 1;
+      if (this.props.value){
+        styles.borderColor = 'red';
+      }
+      else{
+        styles.borderColor = 'dodgerblue';
+      }
     }
     else{
-      styles.borderColor = 'dodgerblue';
+      this.box.style.cursor = 'not-allowed'
     }
   }
 
   handleMouseLeave(e){
-    let styles = this.box.style;
-    styles.transform = 'scale(1, 1)';
-    styles.boxShadow = 'none';
-    styles.zIndex = 0;
-    styles.borderColor = 'black'
+    if (!this.props.terminated){
+      let styles = this.box.style;
+      styles.transform = 'scale(1, 1)';
+      styles.boxShadow = 'none';
+      styles.zIndex = 0;
+      styles.borderColor = 'black'
+    }
   }
 
   handleMouseClick(e){
-    let styles = this.box.style;
-    styles.transform = 'scale(1, 1)';
-    styles.boxShadow = 'none';
-    styles.zIndex = 0;
-    styles.borderColor = 'black'
-    
-    let playerChoices = ['Yes', 'ThumbsUp', 'No'];
-    let computerChoices = ['Threaten', 'back'];
-    let playerChoice = Math.floor(Math.random() * (3 - 1) + 1);
-    playerChoice = playerChoices[playerChoice]
-    let computerChoice = Math.floor(Math.random() * (2 - 1) + 1);
-    computerChoice = computerChoices[computerChoice];
-    let playerTurn = this.props.activeTurn;
-    if (playerTurn){
-      playerChoice = 'ThumbsUp';
-      computerChoice = 'back';
-    }
-    else{
-      playerChoice = 'Dance';
-      computerChoice = 'Threaten'
-    }
-    if (!this.props.value){
-      // this.setState({clicked: true})
-      this.props.updateGameBoard(this.props.row, this.props.col);
-      this.props.changeAnimation(playerChoice, computerChoice);
-      this.props.switchTurn();
-    }
-    else{
-      styles.borderColor = 'red';
+    if (!this.props.terminated){
+      let styles = this.box.style;
+      styles.transform = 'scale(1, 1)';
+      styles.boxShadow = 'none';
+      styles.zIndex = 0;
+      styles.borderColor = 'black'
+      
+      let playerChoices = ['Yes', 'ThumbsUp', 'No'];
+      let computerChoices = ['Threaten', 'back'];
+      let playerChoice = Math.floor(Math.random() * (3 - 1) + 1);
+      playerChoice = playerChoices[playerChoice]
+      let computerChoice = Math.floor(Math.random() * (2 - 1) + 1);
+      computerChoice = computerChoices[computerChoice];
+      let playerTurn = this.props.playerTurn;
+      if (playerTurn){
+        playerChoice = 'ThumbsUp';
+        computerChoice = 'back';
+      }
+      else{
+        playerChoice = 'Dance';
+        computerChoice = 'Threaten'
+      }
+      if (!this.props.value){
+        this.props.changeAnimation(playerChoice, computerChoice);
+        this.props.updateGameBoard(this.props.row, this.props.col);
+      }
+      else{
+        styles.borderColor = 'red';
+      }
     }
   }
 
@@ -85,7 +92,7 @@ class Box extends Component{
         </div>
         {this.props.value === 'H' && 
           <Check
-            style={iconStyles(row, col)} 
+            style={iconStyles(row, col, this.props.value)} 
             onMouseOver={this.handleMouseOver } 
             onMouseLeave={this.handleMouseLeave} 
             onClick={this.handleMouseClick}
@@ -93,7 +100,7 @@ class Box extends Component{
         }
         {this.props.value === 'C' &&
           <Cross 
-            style={iconStyles(row, col)} 
+            style={iconStyles(row, col, this.props.value)} 
             onMouseOver={this.handleMouseOver } 
             onMouseLeave={this.handleMouseLeave} 
             onClick={this.handleMouseClick}

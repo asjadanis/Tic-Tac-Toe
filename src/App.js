@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import GameBoard from './Components/GameBoard';
 import Avatar from './Components/Avatar';
+import Check from '@material-ui/icons/Done';
+import Cross from '@material-ui/icons/Close';
 
 class App extends Component {
   constructor(props){
@@ -9,11 +11,16 @@ class App extends Component {
       boardSize: 3,
       sizes: [3,4,5],
       currentAnimation: 'Wave',
-      playerTurn: true
+      playerTurn: true,
+      computerScore: 0,
+      playerScore: 0
     }
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.changeAnimation = this.changeAnimation.bind(this);
     this.switchTurn = this.switchTurn.bind(this);
+    this.updatePlayerScore = this.updatePlayerScore.bind(this);
+    this.updateComputerScore = this.updateComputerScore.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   handleSelectChange(e){
@@ -24,8 +31,25 @@ class App extends Component {
     this.setState({playerTurn: !this.state.playerTurn});
   }
 
+  updatePlayerScore(){
+    let {playerScore} = this.state;
+    playerScore++;
+    this.setState({playerScore})
+  }
+
+  updateComputerScore(){
+    let {computerScore} = this.state;
+    computerScore++;
+    this.setState({computerScore});
+  }
+
   changeAnimation(playerAnimation, computerAnimation){
     this.setState({playerAnimation, computerAnimation})
+  }
+
+  reset(){
+    this.changeAnimation('Wave', 'Threaten')
+    this.setState({currentAnimation: 'Wave', playerTurn: true })
   }
 
   render() {
@@ -38,19 +62,26 @@ class App extends Component {
             currentAnimation={playerAnimation}
             model='Robot/RobotExpressive.glb'
             player='human'
-            activeTurn={playerTurn}
+            playerTurn={playerTurn}
           />
           {this.state.playerTurn &&
             <span style={{borderBottom: '2px solid dodgerblue', width: '10rem', position: 'absolute', top: '24rem', left: '11rem'}}></span>
           }
+          <div style={{ position: 'absolute', left: '41%', fontSize: '30px', color: 'white'}}>
+            Player <Check style={{position: 'absolute', left: '90px', top: '7px', width: '2rem', height: '2rem'}} />
+            <span style={{display: 'block', position: 'absolute', left: '50%', top: '3rem'}} >{this.state.playerScore}</span>
+          </div>
         </div>
         <div style={{position: 'absolute', top: '2rem', left: '50'}}>
           <div style={{position: 'absolute', width: boardSize*9+'rem', height: boardSize*9+'rem', left: '-15rem', marginTop: '2rem'}}>
             <GameBoard 
               boardSize={boardSize}
               changeAnimation={this.changeAnimation}
-              activeTurn={playerTurn}
+              playerTurn={playerTurn}
+              updateComputerScore={this.updateComputerScore}
+              updatePlayerScore={this.updatePlayerScore}
               switchTurn={this.switchTurn}
+              reset={this.reset}
             />
           </div>
         </div>
@@ -59,14 +90,15 @@ class App extends Component {
             currentAnimation={computerAnimation}
             model='iclone_7_raptoid_mascot_-_free_download/scene.gltf'
             player='computer'
-            activeTurn={playerTurn}
+            playerTurn={playerTurn}
           />
           {!this.state.playerTurn &&
-            <span style={{borderBottom: '2px solid dodgerblue', width: '10rem', position: 'absolute', top: '24rem', left: '13rem'}}></span>
+            <span style={{borderBottom: '2px solid red', width: '10rem', position: 'absolute', top: '24rem', left: '13rem'}}></span>
           }
-        </div>
-        <div>
-
+          <div style={{ position: 'absolute', left: '35%', fontSize: '30px', color: 'white'}}>
+            Computer <Cross style={{position: 'absolute', left: '142px', top: '7px', width: '2rem', height: '2rem'}} />
+            <span style={{display: 'block', position: 'absolute', left: '50%', top: '3rem'}} > {this.state.computerScore}</span>
+          </div>
         </div>
       </div>
     );
