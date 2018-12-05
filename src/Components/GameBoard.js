@@ -59,9 +59,11 @@ class GameBoard extends Component{
       if (gameScore === 0 && this.isMovesRemaining(this.state.board)){
         this.props.switchTurn();
       }
+      if (!this.isMovesRemaining(this.state.board)){
+        this.props.changeAnimation('Jump', 'back')
+      }
     }
     else{
-      this.props.changeAnimation('Jump', 'back')
       this.setState({terminated: true})
     }
   }
