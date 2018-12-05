@@ -20,8 +20,13 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Tic Tac Toe
 
-This is a simple repo to play tic tac toe against a computer using minimax algorithim. 
+This is a simple repo to play tic tac toe against a computer using [Minimax](https://en.wikipedia.org/wiki/Minimax) algorithim and demonstrate the basic configuration of three.js with React and how to manage the scene and render models. 
 For 3d rendering i used [three.js](https://threejs.org/) which is a a great framework to start with webgl and 3d graphics.
 
 One of the 3d model is provided by [Tomás Laulhé](https://www.patreon.com/quaternius)
 The dino was used from [sketchfab](https://sketchfab.com/models/56a3e10a73924843949ae7a9800c97c7) 
+
+## Futre Work
+
+Using [D3.js](https://d3js.org/) visualize the game tree in real time.
+Train a neural network to play against a human rather then the conventional minimax algo which becomes predictable after a while, or use Alpha Beta pruning.
