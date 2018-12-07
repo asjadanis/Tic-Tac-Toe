@@ -26,6 +26,13 @@ For 3d rendering i used [three.js](https://threejs.org/) which is a a great fram
 One of the 3d model is provided by [Tomás Laulhé](https://www.patreon.com/quaternius)
 The dino was used from [sketchfab](https://sketchfab.com/models/56a3e10a73924843949ae7a9800c97c7) 
 
+## How to run
+
+After cloning the repo run the following commands.
+
+npm install.
+npm start.
+
 ## Future Work
 
 Using [D3.js](https://d3js.org/) visualize the game tree in real time.
