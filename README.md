@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## DEMO
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Alt Text](https://giphy.com/gifs/uFlrSlCv3niDWaUOby)
 
 ## Available Scripts
 
